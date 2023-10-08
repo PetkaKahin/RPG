@@ -1,5 +1,4 @@
-﻿using Unit;
-using Zenject;
+﻿using Zenject;
 
 namespace Installers
 {
@@ -7,7 +6,7 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<IInput>().To<ClassicInput>().AsSingle().NonLazy();
+            Container.Bind<IInput>().To<KeyboardInput>().AsSingle().NonLazy();
         }
     }
 }
