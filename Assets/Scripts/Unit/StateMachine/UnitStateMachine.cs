@@ -9,7 +9,7 @@ namespace Unit
 
         public UnitStateMachine()
         {
-
+            
         }
 
         public void AddState(IState state)
