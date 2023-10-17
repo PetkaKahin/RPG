@@ -1,43 +1,52 @@
 using UnityEngine;
 using Zenject;
+using System;
 
 namespace Unit
 {
     [RequireComponent(typeof(BoxCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
 
-    public class PlayerUnit : MonoBehaviour
+    public class PlayerUnit : MonoBehaviour, IMovable
     {
         [SerializeField] private float _speed;
 
-        private IMover _mover;
+        private UnitStateMachine _stateMachine;
 
         private BoxCollider2D _collider;
         private Rigidbody2D _rigidbody;
 
-        public float Speed => _mover.Speed;
+        public float Speed => _speed;
 
         [Inject]
-        private void Construct(IMover mover)
+        private void Construct(UnitStateMachine stateMachine)
         {
-            _mover = mover;
-
             _collider = GetComponent<BoxCollider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
 
-            _mover.BindTo(_rigidbody);
-            _mover.BindTo(transform);
-            _mover.SetSpeed(_speed);
+            _stateMachine = stateMachine;
         }
 
         private void OnValidate()
         {
-            _mover?.SetSpeed(_speed);
+            SetSpeed(_speed);
         }
 
         private void Update()
         {
-            _mover.Move();
+            _stateMachine.Update();
+        }
+
+        public Rigidbody2D GetRigidbody() => _rigidbody;
+
+        public Transform GetTransform() => transform;
+
+        public void SetSpeed(float speed)
+        {
+            if (speed < 0)
+                throw new ArgumentOutOfRangeException(nameof(speed));
+
+            _speed = speed;
         }
     }
 }

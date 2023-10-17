@@ -10,6 +10,10 @@ public class ClassicInput : IInput
 
     public event Action<Vector2> Moved;
 
+    public void Disable() { }
+
+    public void Enable() { }
+
     private Vector2 GetInputAxies()
     {
         Vector2 axies = Vector2.zero;

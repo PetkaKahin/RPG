@@ -8,18 +8,25 @@ public class KeyboardInput : IInput
     public KeyboardInput() 
     {
         _input = new InputSystem();
-        _input.Enable();
     }
 
     public Vector2 MoveAxies => GetInputMove();
 
     public event Action<Vector2> Moved;
 
+    public void Disable() => _input.Disable();
+
+    public void Enable() => _input.Enable();
+
     private Vector2 GetInputMove()
     {
         Vector2 direction = _input.Moving.Move.ReadValue<Vector2>();
-        Moved?.Invoke(direction);
 
+        if (IsMove(direction))
+            Moved?.Invoke(direction);
+        
         return direction;
     }
+
+    private bool IsMove(Vector2 direction) => direction != Vector2.zero;
 }

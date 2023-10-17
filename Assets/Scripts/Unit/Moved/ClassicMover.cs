@@ -17,6 +17,7 @@ namespace Unit
             if (_unitTransform == null)
                 _unitTransform = unit;
         }
+
         public override void Move()
         {
             _unitTransform.position += (Vector3)GetMoveNormalize() * Speed * Time.deltaTime;

@@ -14,6 +14,7 @@ namespace Unit
         public BaseMover(IInput input)
         {
             Input = input;
+            Input.Enable();
         }
 
         public virtual void BindTo(Transform unit) { }
