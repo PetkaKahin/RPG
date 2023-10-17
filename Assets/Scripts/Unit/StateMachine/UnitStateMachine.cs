@@ -12,6 +12,7 @@ namespace Unit
 
         public UnitStateMachine(List<IState> states = null)
         {
+<<<<<<< HEAD
             if (states == null)
                 return;
 
@@ -19,6 +20,9 @@ namespace Unit
 
             _currentState = _states[0];
             _currentState.Enter();
+=======
+            
+>>>>>>> 4284fad2b6a2cc122f6b753a9b1282f4d21722a5
         }
 
         public void AddState<T>(IState state) where T : IState
