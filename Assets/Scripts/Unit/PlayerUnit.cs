@@ -3,33 +3,33 @@ using Zenject;
 using System;
 
 namespace Unit
-{
-    [RequireComponent(typeof(BoxCollider2D))]
-    [RequireComponent(typeof(Rigidbody2D))]
-
+{ 
     public class PlayerUnit : MonoBehaviour, IMovable
     {
+        [Header("Options")]
         [SerializeField] private float _speed;
+        [SerializeField] private float _maxHealth;
 
         private UnitStateMachine _stateMachine;
 
-        private BoxCollider2D _collider;
-        private Rigidbody2D _rigidbody;
+        public UnitHealth Health;
 
         public float Speed => _speed;
+        public float MaxHealth => _maxHealth;
+        public Transform Transform => transform;
 
         [Inject]
-        private void Construct(UnitStateMachine stateMachine)
+        private void Construct(UnitStateMachine stateMachine, UnitHealth health)
         {
-            _collider = GetComponent<BoxCollider2D>();
-            _rigidbody = GetComponent<Rigidbody2D>();
-
             _stateMachine = stateMachine;
+            Health = health;
         }
 
         private void OnValidate()
         {
             SetSpeed(_speed);
+
+            Health?.SetMaxHealth(_maxHealth);
         }
 
         private void Update()
@@ -37,11 +37,7 @@ namespace Unit
             _stateMachine.Update();
         }
 
-        public Rigidbody2D GetRigidbody() => _rigidbody;
-
-        public Transform GetTransform() => transform;
-
-        public void SetSpeed(float speed)
+        public void SetSpeed(float speed) 
         {
             if (speed < 0)
                 throw new ArgumentOutOfRangeException(nameof(speed));

@@ -1,43 +1,44 @@
 ﻿using UnityEngine;
-using System;
 
 namespace Unit
 {
     public class MoveState : IState
-    {
-        private const float MassFactor = 250f;
-
+    { 
         private readonly IInput _input;
-        private readonly IMovable _unit;
+        private readonly IMover _unit;
         private readonly ISwitcherState _switcherState;
-        private readonly Rigidbody2D _unitRigidbody;
 
-        public MoveState(ISwitcherState switcherState, IInput input, IMovable unit)
+        public MoveState(ISwitcherState switcherState, IInput input, IMover unit)
         {
+            //Debug.Log("Инициализация Move");
             _input = input;
             _unit = unit;
             _switcherState = switcherState;
-
-            _unitRigidbody = _unit.GetRigidbody();
         }
 
         public void Update()
         {
             if (_input.MoveAxies == Vector2.zero)
-                _switcherState.SwitchState<IdleState>();
+                SwithToIdle();
 
-            _unitRigidbody.AddForce(_input.MoveAxies * MassFactor * _unit.Speed * Time.deltaTime);
+            _unit.Move(_input.MoveAxies);
         }
 
         public void Enter()
         {
             _input.Enable();
-            Debug.Log("MoveState");
+            _input.Dashed += SwitchToDash;
+           // Debug.Log("Move enter");
         }
 
         public void Exit()
         {
+            _input.Dashed -= SwitchToDash;
             _input.Disable();
+            //Debug.Log("Move exit");
         }
+
+        private void SwithToIdle() => _switcherState.SwitchState<IdleState>("Move переходит в Idle");
+        private void SwitchToDash() => _switcherState.SwitchState<DashState>("Move переходит в Dash");
     }
 }

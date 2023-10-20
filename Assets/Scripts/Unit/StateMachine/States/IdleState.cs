@@ -9,6 +9,7 @@ namespace Unit
 
         public IdleState(ISwitcherState switcherState, IInput input) 
         {
+            //Debug.Log("Инициализация Idle");
             _switcherState = switcherState;
             _input = input;
         }
@@ -16,24 +17,25 @@ namespace Unit
         public void Enter()
         {
             _input.Enable();
-            _input.Moved += SwitchState;
-            Debug.Log("IdleState");
+            _input.Moved += SwitchToMove;
+            _input.Dashed += SwitchToDash;
+            //Debug.Log("Idle enter");
         }
 
         public void Exit()
         {
+            _input.Moved -= SwitchToMove;
+            _input.Dashed -= SwitchToDash;
             _input.Disable();
-            _input.Moved -= SwitchState;
+            //Debug.Log("Idle exit");
         }
 
         public void Update()
         {
-            Vector2 direction = _input.MoveAxies;
+            
         }
 
-        private void SwitchState(Vector2 direction)
-        {
-            _switcherState.SwitchState<MoveState>();
-        }
+        private void SwitchToMove() => _switcherState.SwitchState<MoveState>("Idle переходит в Move");
+        private void SwitchToDash() => _switcherState.SwitchState<DashState>("Idle переходит в Dash");
     }
 }

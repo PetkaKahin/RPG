@@ -8,7 +8,9 @@ public class ClassicInput : IInput
 
     public Vector2 MoveAxies => GetInputAxies();
 
-    public event Action<Vector2> Moved;
+    public event Action Moved;
+    public event Action Idled;
+    public event Action Dashed;
 
     public void Disable() { }
 
@@ -21,7 +23,7 @@ public class ClassicInput : IInput
         axies.x = Input.GetAxis(HorizontalAxisName);
         axies.y = Input.GetAxis(VerticalAxisName);
 
-        Moved?.Invoke(axies);
+        Moved?.Invoke();
 
         return axies;
     }

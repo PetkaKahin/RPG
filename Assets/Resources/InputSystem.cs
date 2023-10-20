@@ -44,20 +44,18 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""3faec35b-4799-40b6-8c14-a479095e8c20"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""a9e1935d-cf77-4e93-883c-796267781424"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""4c2b8e89-52b9-4b31-bdf6-f7eae5d0ab1a"",
@@ -123,6 +121,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Jamp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b44144f-3c6c-4b61-86fc-0a8f0de4ff0a"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and keyboard"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -139,6 +148,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Moving = asset.FindActionMap("Moving", throwIfNotFound: true);
         m_Moving_Move = m_Moving.FindAction("Move", throwIfNotFound: true);
         m_Moving_Jamp = m_Moving.FindAction("Jamp", throwIfNotFound: true);
+        m_Moving_Dash = m_Moving.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -202,12 +212,14 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private List<IMovingActions> m_MovingActionsCallbackInterfaces = new List<IMovingActions>();
     private readonly InputAction m_Moving_Move;
     private readonly InputAction m_Moving_Jamp;
+    private readonly InputAction m_Moving_Dash;
     public struct MovingActions
     {
         private @InputSystem m_Wrapper;
         public MovingActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Moving_Move;
         public InputAction @Jamp => m_Wrapper.m_Moving_Jamp;
+        public InputAction @Dash => m_Wrapper.m_Moving_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Moving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -223,6 +235,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Jamp.started += instance.OnJamp;
             @Jamp.performed += instance.OnJamp;
             @Jamp.canceled += instance.OnJamp;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IMovingActions instance)
@@ -233,6 +248,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Jamp.started -= instance.OnJamp;
             @Jamp.performed -= instance.OnJamp;
             @Jamp.canceled -= instance.OnJamp;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IMovingActions instance)
@@ -263,5 +281,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJamp(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }

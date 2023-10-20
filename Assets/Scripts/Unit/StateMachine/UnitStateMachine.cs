@@ -12,7 +12,6 @@ namespace Unit
 
         public UnitStateMachine(List<IState> states = null)
         {
-<<<<<<< HEAD
             if (states == null)
                 return;
 
@@ -20,9 +19,6 @@ namespace Unit
 
             _currentState = _states[0];
             _currentState.Enter();
-=======
-            
->>>>>>> 4284fad2b6a2cc122f6b753a9b1282f4d21722a5
         }
 
         public void AddState<T>(IState state) where T : IState
@@ -30,21 +26,28 @@ namespace Unit
             if (state == null)
                 throw new ArgumentNullException("Попытка присвоить null: " + nameof(state));
 
-            /*IState newState = _states.FirstOrDefault(state => state is T);
+            IState newState = _states.FirstOrDefault(state => state is T);
 
             if (newState != null)
-                throw new ArgumentException($"Попытка добавит уже существующие состояние: {newState}");*/
+                throw new ArgumentException($"Попытка добавит уже существующие состояние: {newState}");
 
             _states.Add(state);
         }
 
-        public void SwitchState<T>() where T : IState
+        public void SwitchState<T>(string massage) where T : IState
         {
+            //Debug.Log(massage);
+
             IState state = _states.FirstOrDefault(state => state is T);
+
+            if (state == null)
+                throw new ArgumentNullException(nameof(state));
 
             _currentState?.Exit();
             _currentState = state;
             _currentState.Enter();
+
+            //Debug.Log(massage);
         }
 
         public void Update() => _currentState.Update();

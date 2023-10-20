@@ -12,23 +12,26 @@ namespace Installers
         [SerializeField] private Transform _playerSpawnPoint;
 
         [Header("Options")]
-        [SerializeField] private MoverType _moverType;
+        [SerializeField, Range(1f, 30f)] private float _speed;
+        [SerializeField, Range(1f, 100f)] private float _maxHealth;
 
         private UnitStateMachine _stateMachine;
+        private UnitHealth _unitHealth;
+        private IMover _unitMover;
 
         private PlayerUnit _playerUnit;
 
         public override void InstallBindings()
         {
-            _stateMachine = new UnitStateMachine();
-
-            Container.Bind<UnitStateMachine>().FromInstance(_stateMachine).AsTransient().NonLazy();
-            Container.Bind<ISwitcherState>().FromInstance(_stateMachine).AsTransient().NonLazy();
+            CreatePlayerDependencies();
 
             _playerUnit = Container.InstantiatePrefabForComponent<PlayerUnit>(_playerPrefab, _playerSpawnPoint);
+            Container.Bind<IMovable>().FromInstance(_playerUnit).AsSingle().NonLazy();
+
+            _unitMover = Container.Instantiate<TransformMover>();
+            Container.Bind<IMover>().FromInstance(_unitMover).AsSingle().NonLazy();
 
             Container.Bind<PlayerUnit>().FromInstance(_playerUnit).AsSingle().NonLazy();
-            Container.Bind<IMovable>().FromInstance(_playerUnit).AsSingle().NonLazy();
 
             FillingStates();
         }
@@ -40,25 +43,24 @@ namespace Installers
 
             IdleState idleState = Container.Instantiate<IdleState>();
             MoveState moveState = Container.Instantiate<MoveState>();
+            DashState spurtState = Container.Instantiate<DashState>();
 
             _stateMachine.AddState<IdleState>(idleState);
             _stateMachine.AddState<MoveState>(moveState);
+            _stateMachine.AddState<DashState>(spurtState);
 
-            _stateMachine.SwitchState<IdleState>();
+            _stateMachine.SwitchState<IdleState>("Запуск Idle");
         }
 
-        private void BindingMover()
+        private void CreatePlayerDependencies()
         {
-            switch (_moverType)
-            {
-                case MoverType.Classic:
-                    Container.Bind<IMover>().To<ClassicMover>().AsSingle().NonLazy();
-                    return;
+            _stateMachine = new UnitStateMachine();
+            _unitHealth = new UnitHealth(_maxHealth);
 
-                case MoverType.Physical:
-                    Container.Bind<IMover>().To<PhysicalMover>().AsSingle().NonLazy();
-                    return;
-            }
+            Container.Bind<UnitStateMachine>().FromInstance(_stateMachine).AsTransient().NonLazy();
+            Container.Bind<ISwitcherState>().FromInstance(_stateMachine).AsTransient().NonLazy();
+
+            Container.Bind<UnitHealth>().FromInstance(_unitHealth).AsSingle().NonLazy();
         }
     }
 }

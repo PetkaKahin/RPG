@@ -3,7 +3,8 @@ using UnityEngine;
 
 public interface IInput
 {
-    event Action<Vector2> Moved;
+    event Action Moved;
+    event Action Dashed;
 
     Vector2 MoveAxies { get; }
 
