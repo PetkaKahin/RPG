@@ -2,6 +2,6 @@
 {
     public interface ISwitcherState
     {
-        void SwitchState<T>(string message) where T : IState;
+        void SwitchState<T>() where T : IState;
     }
 }

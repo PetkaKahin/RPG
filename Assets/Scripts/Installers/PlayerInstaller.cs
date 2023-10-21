@@ -11,6 +11,9 @@ namespace Installers
         [SerializeField] private PlayerUnit _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
 
+        [Header("Configs")]
+        [SerializeField] private DashConfig _dashConfig;
+
         [Header("Options")]
         [SerializeField, Range(1f, 30f)] private float _speed;
         [SerializeField, Range(1f, 100f)] private float _maxHealth;
@@ -23,6 +26,8 @@ namespace Installers
 
         public override void InstallBindings()
         {
+            BindingConfigs();
+
             CreatePlayerDependencies();
 
             _playerUnit = Container.InstantiatePrefabForComponent<PlayerUnit>(_playerPrefab, _playerSpawnPoint);
@@ -49,7 +54,7 @@ namespace Installers
             _stateMachine.AddState<MoveState>(moveState);
             _stateMachine.AddState<DashState>(spurtState);
 
-            _stateMachine.SwitchState<IdleState>("Запуск Idle");
+            _stateMachine.SwitchState<IdleState>();
         }
 
         private void CreatePlayerDependencies()
@@ -61,6 +66,11 @@ namespace Installers
             Container.Bind<ISwitcherState>().FromInstance(_stateMachine).AsTransient().NonLazy();
 
             Container.Bind<UnitHealth>().FromInstance(_unitHealth).AsSingle().NonLazy();
+        }
+
+        private void BindingConfigs()
+        {
+            Container.Bind<DashConfig>().FromInstance(_dashConfig).AsSingle().NonLazy();
         }
     }
 }

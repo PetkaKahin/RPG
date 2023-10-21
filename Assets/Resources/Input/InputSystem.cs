@@ -37,15 +37,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Jamp"",
-                    ""type"": ""Button"",
-                    ""id"": ""5d2d7251-ae43-4af1-aa51-f2b98bf8d570"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""3faec35b-4799-40b6-8c14-a479095e8c20"",
@@ -113,19 +104,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""66b8e727-fda7-4381-92f0-1ab571374a16"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and keyboard"",
-                    ""action"": ""Jamp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8b44144f-3c6c-4b61-86fc-0a8f0de4ff0a"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse and keyboard"",
@@ -147,7 +127,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // Moving
         m_Moving = asset.FindActionMap("Moving", throwIfNotFound: true);
         m_Moving_Move = m_Moving.FindAction("Move", throwIfNotFound: true);
-        m_Moving_Jamp = m_Moving.FindAction("Jamp", throwIfNotFound: true);
         m_Moving_Dash = m_Moving.FindAction("Dash", throwIfNotFound: true);
     }
 
@@ -211,14 +190,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Moving;
     private List<IMovingActions> m_MovingActionsCallbackInterfaces = new List<IMovingActions>();
     private readonly InputAction m_Moving_Move;
-    private readonly InputAction m_Moving_Jamp;
     private readonly InputAction m_Moving_Dash;
     public struct MovingActions
     {
         private @InputSystem m_Wrapper;
         public MovingActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Moving_Move;
-        public InputAction @Jamp => m_Wrapper.m_Moving_Jamp;
         public InputAction @Dash => m_Wrapper.m_Moving_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Moving; }
         public void Enable() { Get().Enable(); }
@@ -232,9 +209,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Jamp.started += instance.OnJamp;
-            @Jamp.performed += instance.OnJamp;
-            @Jamp.canceled += instance.OnJamp;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -245,9 +219,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Jamp.started -= instance.OnJamp;
-            @Jamp.performed -= instance.OnJamp;
-            @Jamp.canceled -= instance.OnJamp;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -280,7 +251,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     public interface IMovingActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnJamp(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
 }

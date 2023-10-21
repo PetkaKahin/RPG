@@ -6,7 +6,7 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<IInput>().To<KeyboardInput>().AsSingle().NonLazy();
+            Container.Bind<IInput>().To<DescktopInput>().AsSingle().NonLazy();
         }
     }
 }

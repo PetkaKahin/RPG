@@ -1,21 +1,18 @@
 using UnityEngine;
 using Zenject;
-using System;
 
 namespace Unit
 { 
     public class PlayerUnit : MonoBehaviour, IMovable
     {
-        [Header("Options")]
-        [SerializeField] private float _speed;
-        [SerializeField] private float _maxHealth;
+        [SerializeField] private PlayerConfig _config;
 
         private UnitStateMachine _stateMachine;
 
         public UnitHealth Health;
 
-        public float Speed => _speed;
-        public float MaxHealth => _maxHealth;
+        public float Speed => _config.Speed;
+        public float MaxHealth => _config.Health;
         public Transform Transform => transform;
 
         [Inject]
@@ -27,9 +24,9 @@ namespace Unit
 
         private void OnValidate()
         {
-            SetSpeed(_speed);
+            SetSpeed(Speed);
 
-            Health?.SetMaxHealth(_maxHealth);
+            Health?.SetMaxHealth(MaxHealth);
         }
 
         private void Update()
@@ -37,12 +34,6 @@ namespace Unit
             _stateMachine.Update();
         }
 
-        public void SetSpeed(float speed) 
-        {
-            if (speed < 0)
-                throw new ArgumentOutOfRangeException(nameof(speed));
-
-            _speed = speed;
-        }
+        public void SetSpeed(float speed) => _config.SetSpeed(speed);
     }
 }

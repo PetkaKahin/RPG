@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Unit
+﻿namespace Unit
 {
     public class IdleState : IState
     {
@@ -9,33 +7,29 @@ namespace Unit
 
         public IdleState(ISwitcherState switcherState, IInput input) 
         {
-            //Debug.Log("Инициализация Idle");
             _switcherState = switcherState;
             _input = input;
         }
 
         public void Enter()
         {
-            _input.Enable();
             _input.Moved += SwitchToMove;
             _input.Dashed += SwitchToDash;
-            //Debug.Log("Idle enter");
         }
 
         public void Exit()
         {
             _input.Moved -= SwitchToMove;
             _input.Dashed -= SwitchToDash;
-            _input.Disable();
-            //Debug.Log("Idle exit");
         }
 
-        public void Update()
+        public void Update() 
         {
-            
+            if (_input.IsMove)
+                SwitchToMove();
         }
 
-        private void SwitchToMove() => _switcherState.SwitchState<MoveState>("Idle переходит в Move");
-        private void SwitchToDash() => _switcherState.SwitchState<DashState>("Idle переходит в Dash");
+        private void SwitchToMove() => _switcherState.SwitchState<MoveState>();
+        private void SwitchToDash() => _switcherState.SwitchState<DashState>();
     }
 }

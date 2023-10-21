@@ -7,33 +7,26 @@ namespace Unit
     {
         private readonly IMovable _unit;
         private readonly ISwitcherState _switcherState;
+        private readonly IInput _input;
+        private readonly DashConfig _config;
 
-        private float _distance = 3f;
-        private float _time = 0.1f;
-
-        public DashState(ISwitcherState switcherState, IMovable unit)
+        public DashState(ISwitcherState switcherState, IMovable unit, IInput input, DashConfig config)
         {
-            //Debug.Log("Инициализация Dash");
             _switcherState = switcherState;
             _unit = unit;
+            _input = input;
+            _config = config;
         }
 
         public void Enter()
         {
-            //Debug.Log("Dash enter");
-
-            _unit.Transform.position += Vector3.up * _distance;
-            SwitchToIdle();
+            _unit.Transform.DOMove(_unit.Transform.position + (Vector3)_input.MoveAxies * _config.Distance, _config.Time).onComplete += SwitchToIdle;
         }
 
-        public void Exit()
-        {
-            // Debug.Log("Dash exit");
-            
-        }
+        public void Exit() { }
 
         public void Update() { }
 
-        private void SwitchToIdle() => _switcherState.SwitchState<IdleState>("Dash переходит в Idle");
+        private void SwitchToIdle() => _switcherState.SwitchState<IdleState>();
     }
 }

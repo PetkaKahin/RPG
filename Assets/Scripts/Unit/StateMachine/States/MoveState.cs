@@ -10,7 +10,6 @@ namespace Unit
 
         public MoveState(ISwitcherState switcherState, IInput input, IMover unit)
         {
-            //Debug.Log("Инициализация Move");
             _input = input;
             _unit = unit;
             _switcherState = switcherState;
@@ -18,27 +17,25 @@ namespace Unit
 
         public void Update()
         {
-            if (_input.MoveAxies == Vector2.zero)
+            Vector2 direction = _input.MoveAxies;
+
+            if (direction == Vector2.zero)
                 SwithToIdle();
 
-            _unit.Move(_input.MoveAxies);
+            _unit.Move(direction);
         }
 
         public void Enter()
         {
-            _input.Enable();
             _input.Dashed += SwitchToDash;
-           // Debug.Log("Move enter");
         }
 
         public void Exit()
         {
             _input.Dashed -= SwitchToDash;
-            _input.Disable();
-            //Debug.Log("Move exit");
         }
 
-        private void SwithToIdle() => _switcherState.SwitchState<IdleState>("Move переходит в Idle");
-        private void SwitchToDash() => _switcherState.SwitchState<DashState>("Move переходит в Dash");
+        private void SwithToIdle() => _switcherState.SwitchState<IdleState>();
+        private void SwitchToDash() => _switcherState.SwitchState<DashState>();
     }
 }

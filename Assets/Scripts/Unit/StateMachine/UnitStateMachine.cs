@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using UnityEngine;
 
 namespace Unit
 {
@@ -34,10 +33,8 @@ namespace Unit
             _states.Add(state);
         }
 
-        public void SwitchState<T>(string massage) where T : IState
+        public void SwitchState<T>() where T : IState
         {
-            //Debug.Log(massage);
-
             IState state = _states.FirstOrDefault(state => state is T);
 
             if (state == null)
@@ -46,8 +43,6 @@ namespace Unit
             _currentState?.Exit();
             _currentState = state;
             _currentState.Enter();
-
-            //Debug.Log(massage);
         }
 
         public void Update() => _currentState.Update();

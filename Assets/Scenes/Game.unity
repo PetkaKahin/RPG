@@ -246,7 +246,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -320,7 +320,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2096275923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2096275921
 GameObject:
@@ -384,7 +384,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1523144998}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2096275924
@@ -401,13 +402,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: -4405102278931923021, guid: d33965eec1099834c9c86432c336a930, type: 3}
   _playerSpawnPoint: {fileID: 95564046}
+  _dashConfig: {fileID: 11400000, guid: f2080664b16b7b144869ceff91db59ae, type: 2}
   _speed: 7.2
   _maxHealth: 30
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1523144998}
   - {fileID: 519420032}
   - {fileID: 95564046}
   - {fileID: 426219480}
