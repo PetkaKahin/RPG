@@ -2,10 +2,10 @@
 {
     public interface IHeath
     {
-        const float MinHealth = 0;
+        const float MinValue = 0;
 
-        float Health { get; }
-        float MaxHealth { get; }
+        float Value { get; }
+        float MaxValue { get; }
 
         void SetMaxHealth(float maxHealth);
     }

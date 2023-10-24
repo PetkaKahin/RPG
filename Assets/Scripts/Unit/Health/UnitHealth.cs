@@ -4,18 +4,18 @@ namespace Unit
 {
     public class UnitHealth : IDamagable, IHeal
     {
-        public const float MinHealth = IHeath.MinHealth;
+        public const float MinValue = IHeath.MinValue;
 
         public event Action Healed;
         public event Action Died;
 
-        public float MaxHealth { get; private set; }
-        public float Health { get; private set; }
+        public float MaxValue { get; private set; }
+        public float Value { get; private set; }
 
         public UnitHealth(float maxHealth)
         {
             SetMaxHealth(maxHealth);
-            Health = MaxHealth;
+            Value = MaxValue;
         }
 
         public void Heal(float value)
@@ -23,10 +23,10 @@ namespace Unit
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value));
 
-            Health += value;
+            Value += value;
 
-            if (Health > MaxHealth)
-                Health = MaxHealth;
+            if (Value > MaxValue)
+                Value = MaxValue;
 
             Healed?.Invoke();
         }
@@ -36,18 +36,18 @@ namespace Unit
             if (damage < 0)
                 throw new ArgumentOutOfRangeException(nameof(damage));
 
-            Health -= damage;
+            Value -= damage;
 
-            if (Health < MinHealth)
+            if (Value <= MinValue)
                 Die();
         }
 
         public void SetMaxHealth(float maxHealth)
         {
-            if (maxHealth < MinHealth)
+            if (maxHealth < MinValue)
                 throw new ArgumentOutOfRangeException(nameof(maxHealth));
 
-            MaxHealth = maxHealth;
+            MaxValue = maxHealth;
         }
 
         private void Die()
