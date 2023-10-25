@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Unit;
+using System;
 
 namespace Weapon
 {
@@ -11,6 +12,8 @@ namespace Weapon
         private CapsuleCollider2D _sword;
 
         public float Damage => _config.Damage;
+
+        public event Action AttackCompleted;
 
         private void Start()
         {
@@ -42,6 +45,10 @@ namespace Weapon
         public void SetDamage(float damage) => _config.SetDamage(damage);
 
         private void Enable() => _sword.enabled = true;
-        private void Disable() => _sword.enabled = false;
+        private void Disable()
+        {
+            _sword.enabled = false;
+            AttackCompleted?.Invoke();
+        }
     }
 }

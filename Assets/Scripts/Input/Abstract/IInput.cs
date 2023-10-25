@@ -7,6 +7,8 @@ public interface IInput
 
     event Action Moved;
     event Action Dashed;
+    event Action LeftClicked;
+    event Action RightClicked;
 
     Vector2 MoveAxies { get; }
 

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b287f43a7146e043a7de8dc1a5655fa, type: 3}
-  m_Name: SwordConfig
+  m_Name: SwordConfig 1
   m_EditorClassIdentifier: 
   _damage: 3
-  _timeAttack: 0.2
+  _timeAttack: 0.5
   _range: 1
-  _angleAttack: 160
+  _angleAttack: 180

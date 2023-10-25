@@ -15,12 +15,14 @@
         {
             _input.Moved += SwitchToMove;
             _input.Dashed += SwitchToDash;
+            _input.LeftClicked += SwichToAttack;
         }
 
         public void Exit()
         {
             _input.Moved -= SwitchToMove;
             _input.Dashed -= SwitchToDash;
+            _input.LeftClicked -= SwichToAttack;
         }
 
         public void Update() 
@@ -31,5 +33,6 @@
 
         private void SwitchToMove() => _switcherState.SwitchState<MoveState>();
         private void SwitchToDash() => _switcherState.SwitchState<DashState>();
+        private void SwichToAttack() => _switcherState.SwitchState<AttackState>();
     }
 }

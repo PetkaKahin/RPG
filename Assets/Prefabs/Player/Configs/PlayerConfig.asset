@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa0061d6ab450ba468013a6e7f07e8c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d2d17042a4a22449a9fc2e42a71706b, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  _heath: 50
-  _speed: 15
+  _heath: 15
+  _speed: 6
