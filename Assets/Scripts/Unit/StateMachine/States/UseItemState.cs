@@ -1,27 +1,27 @@
-﻿using Weapon;
+﻿using Items;
 
 namespace Unit
 {
-    public class AttackState : IState
+    public class UseItemState : IState
     {
         private readonly ISwitcherState _switcherState;
-        private readonly IDamager _weapon;
+        private readonly IItem _weapon;
 
-        public AttackState(ISwitcherState switcherState, IDamager weapon)
+        public UseItemState(ISwitcherState switcherState, IItem item)
         {
             _switcherState = switcherState;
-            _weapon = weapon;
+            _weapon = item;
         }
 
         public void Enter()
         {
-            _weapon.AttackCompleted += SwitchToIdle;
-            _weapon.Attack();
+            _weapon.UseCompleted += SwitchToIdle;
+            _weapon.Use();
         }
 
         public void Exit()
         {
-            _weapon.AttackCompleted -= SwitchToIdle;
+            _weapon.UseCompleted -= SwitchToIdle;
         }
 
         public void Update()

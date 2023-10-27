@@ -2,7 +2,7 @@
 using Unit;
 using System;
 
-namespace Weapon
+namespace Items
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     public class Sword : MonoBehaviour, IDamager
@@ -14,6 +14,7 @@ namespace Weapon
         public float Damage => _config.Damage;
 
         public event Action AttackCompleted;
+        public event Action UseCompleted;
 
         private void Start()
         {
@@ -49,6 +50,9 @@ namespace Weapon
         {
             _sword.enabled = false;
             AttackCompleted?.Invoke();
+            UseCompleted?.Invoke();
         }
+
+        public void Use() => Attack();
     }
 }

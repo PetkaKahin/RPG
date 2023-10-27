@@ -2,7 +2,7 @@ using Unit;
 using UnityEngine;
 using Zenject;
 using System;
-using Weapon;
+using Items;
 
 namespace Installers
 {
@@ -33,7 +33,7 @@ namespace Installers
 
             _playerUnit = Container.InstantiatePrefabForComponent<PlayerUnit>(_playerPrefab, _playerSpawnPoint);
             Container.Bind<IMovable>().FromInstance(_playerUnit).AsSingle().NonLazy();
-            Container.Bind<IDamager>().FromInstance(_playerUnit.Weapon).AsSingle().NonLazy();
+            Container.Bind<IItem>().FromInstance(_playerUnit.Item).AsSingle().NonLazy();
 
             _unitMover = Container.Instantiate<TransformMover>();
             Container.Bind<IMover>().FromInstance(_unitMover).AsSingle().NonLazy();
@@ -51,12 +51,12 @@ namespace Installers
             IdleState idleState = Container.Instantiate<IdleState>();
             MoveState moveState = Container.Instantiate<MoveState>();
             DashState spurtState = Container.Instantiate<DashState>();
-            AttackState attackState = Container.Instantiate<AttackState>();
+            UseItemState attackState = Container.Instantiate<UseItemState>();
 
             _stateMachine.AddState<IdleState>(idleState);
             _stateMachine.AddState<MoveState>(moveState);
             _stateMachine.AddState<DashState>(spurtState);
-            _stateMachine.AddState<AttackState>(attackState);
+            _stateMachine.AddState<UseItemState>(attackState);
 
             _stateMachine.SwitchState<IdleState>();
         }

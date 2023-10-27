@@ -1,6 +1,6 @@
 using UnityEngine;
 using Zenject;
-using Weapon;
+using Items;
 using System;
 
 namespace Unit
@@ -11,7 +11,7 @@ namespace Unit
         [SerializeField] private Sword _sword;
 
         private UnitStateMachine _stateMachine;
-        public IDamager Weapon;
+        public IItem Item;
 
         public UnitHealth Health;
 
@@ -24,7 +24,7 @@ namespace Unit
         {
             _stateMachine = stateMachine;
             Health = health;
-            Weapon = _sword;
+            Item = _sword;
         }
 
         private void OnValidate()
@@ -41,12 +41,12 @@ namespace Unit
 
         public void SetSpeed(float speed) => _config.SetSpeed(speed);
 
-        public void SetWeapon(IDamager weapon)
+        public void SetItem(IItem item)
         {
-            if (weapon == null)
-                throw new ArgumentNullException(nameof(weapon));
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
 
-            Weapon = weapon;
+            Item = item;
         }
     }
 }

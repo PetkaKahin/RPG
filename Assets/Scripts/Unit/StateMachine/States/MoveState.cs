@@ -28,17 +28,17 @@ namespace Unit
         public void Enter()
         {
             _input.Dashed += SwitchToDash;
-            _input.LeftClicked += SwichToAttack;
+            _input.LeftClicked += SwichToUseItem;
         }
 
         public void Exit()
         {
             _input.Dashed -= SwitchToDash;
-            _input.LeftClicked -= SwichToAttack;
+            _input.LeftClicked -= SwichToUseItem;
         }
 
         private void SwithToIdle() => _switcherState.SwitchState<IdleState>();
         private void SwitchToDash() => _switcherState.SwitchState<DashState>();
-        private void SwichToAttack() => _switcherState.SwitchState<AttackState>();
+        private void SwichToUseItem() => _switcherState.SwitchState<UseItemState>();
     }
 }

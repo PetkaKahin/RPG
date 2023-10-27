@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Weapon
+namespace Items
 {
-    public interface IDamager
+    public interface IDamager : IItem
     {
         float Damage { get; }
 
