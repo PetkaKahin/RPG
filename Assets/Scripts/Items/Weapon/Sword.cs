@@ -9,6 +9,7 @@ namespace Items
     {
         [SerializeField] private SwordConfig _config;
 
+        private SpriteRenderer _spriteRenderer;
         private CapsuleCollider2D _sword;
 
         public float Damage => _config.Damage;
@@ -19,6 +20,8 @@ namespace Items
         private void Start()
         {
             _sword = GetComponent<CapsuleCollider2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _sword.isTrigger = true;
             Disable();
         }
 
@@ -45,10 +48,15 @@ namespace Items
 
         public void SetDamage(float damage) => _config.SetDamage(damage);
 
-        private void Enable() => _sword.enabled = true;
+        private void Enable()
+        {
+            _sword.enabled = true;
+            _spriteRenderer.enabled = true;
+        }
         private void Disable()
         {
             _sword.enabled = false;
+            _spriteRenderer.enabled = false;
             AttackCompleted?.Invoke();
             UseCompleted?.Invoke();
         }

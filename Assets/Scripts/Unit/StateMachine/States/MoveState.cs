@@ -23,6 +23,7 @@ namespace Unit
                 SwithToIdle();
 
             _unit.Move(direction);
+            _unit.RotateTo(_input.MousePosition);
         }
 
         public void Enter()

@@ -5,23 +5,23 @@ namespace Unit
     public class UseItemState : IState
     {
         private readonly ISwitcherState _switcherState;
-        private readonly IItem _weapon;
+        private readonly IItem _item;
 
         public UseItemState(ISwitcherState switcherState, IItem item)
         {
             _switcherState = switcherState;
-            _weapon = item;
+            _item = item;
         }
 
         public void Enter()
         {
-            _weapon.UseCompleted += SwitchToIdle;
-            _weapon.Use();
+            _item.UseCompleted += SwitchToIdle;
+            _item.Use();
         }
 
         public void Exit()
         {
-            _weapon.UseCompleted -= SwitchToIdle;
+            _item.UseCompleted -= SwitchToIdle;
         }
 
         public void Update()

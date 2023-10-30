@@ -8,5 +8,6 @@ namespace Unit
         event Action Moved;
 
         void Move(Vector3 direction);
+        void RotateTo(Vector3 direction);
     }
 }

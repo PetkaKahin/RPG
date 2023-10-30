@@ -20,7 +20,8 @@ namespace Unit
 
         public void Enter()
         {
-            _unit.Transform.DOMove(_unit.Transform.position + (Vector3)_input.MoveAxies * _config.Distance, _config.Time).onComplete += SwitchToIdle;
+            Vector3 direction = ((Vector3)_input.MousePosition - _unit.Transform.position).normalized;
+            _unit.Transform.DOMove(_unit.Transform.position + direction * _config.Distance, _config.Time).onComplete += SwitchToIdle;
         }
 
         public void Exit() { }

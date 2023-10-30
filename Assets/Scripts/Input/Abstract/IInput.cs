@@ -11,6 +11,7 @@ public interface IInput
     event Action RightClicked;
 
     Vector2 MoveAxies { get; }
+    Vector2 MousePosition { get; }
 
     void Disable();
     void Enable();

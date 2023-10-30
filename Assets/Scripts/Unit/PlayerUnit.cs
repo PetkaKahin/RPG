@@ -24,6 +24,7 @@ namespace Unit
         {
             _stateMachine = stateMachine;
             Health = health;
+
             Item = _sword;
         }
 

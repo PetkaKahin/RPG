@@ -4,11 +4,13 @@
     {
         private readonly ISwitcherState _switcherState;
         private readonly IInput _input;
+        private readonly IMover _mover;
 
-        public IdleState(ISwitcherState switcherState, IInput input) 
+        public IdleState(ISwitcherState switcherState, IInput input, IMover mover) 
         {
             _switcherState = switcherState;
             _input = input;
+            _mover = mover;
         }
 
         public void Enter()
@@ -29,6 +31,8 @@
         {
             if (_input.IsMove)
                 SwitchToMove();
+
+            _mover.RotateTo(_input.MousePosition);
         }
 
         private void SwitchToMove() => _switcherState.SwitchState<MoveState>();
